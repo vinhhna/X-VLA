@@ -215,3 +215,5 @@ logs/*
 runnings/*
 .mp4
 logs/
+metas/
+demo.ipynb

@@ -37,13 +37,22 @@ https://github.com/user-attachments/assets/c047bac4-17c3-4d66-8036-badfab2b8c41
 # Clone the repository
 git clone https://github.com/2toinf/X-VLA.git
 cd X-VLA
+```
 
+```bash
 # Create and activate Conda environment
 conda create -n XVLA python=3.10 -y
 conda activate XVLA
 
 # Install dependencies
 pip install -r requirements.txt
+```
+
+or 
+
+```bash
+conda env create -f environment.yml
+conda activate xvla-stable
 ```
 
 ---

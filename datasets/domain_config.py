@@ -77,4 +77,7 @@ DATA_DOMAIN_ID = {
     
     # lerobot-sim
     "lift2": 0,
+
+    # x2robot
+    "x2robot": 0
 }

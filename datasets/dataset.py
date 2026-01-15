@@ -92,8 +92,6 @@ class InfiniteDataReader(IterableDataset):
         Handler = get_handler_cls(robot_type)
         handler = Handler(meta=meta, num_views=self.num_views)
         for traj_idx in traj_indices:
-            # try:
-                
                 for sample in handler.iter_episode(
                     traj_idx,
                     num_actions=self.num_actions,
@@ -107,9 +105,6 @@ class InfiniteDataReader(IterableDataset):
                     idx_for_mask_proprio = sample.pop("idx_for_mask_proprio", [])
                     sample.update(action_slice(sample.pop("abs_trajectory", None), idx_for_delta, idx_for_mask_proprio))
                     yield sample
-            # except Exception as e:
-            #     with open("error_log.txt", "a") as f: f.write(f"skip broken traj {meta['datalist'][traj_idx]} with {e}\n")
-            #     continue
         if self.training: yield from self._iter_one_dataset(dataset_name)
 
 
