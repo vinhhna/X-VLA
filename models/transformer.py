@@ -40,6 +40,14 @@ def _has_sdp_attention() -> bool:
     return hasattr(F, "scaled_dot_product_attention")
 
 
+def _make_gelu() -> nn.Module:
+    """Use approximate GELU when supported, otherwise fall back for older torch."""
+    try:
+        return nn.GELU(approximate="tanh")
+    except TypeError:
+        return nn.GELU()
+
+
 # ---------------------------------- MLP --------------------------------------
 
 class Mlp(nn.Module):
@@ -67,7 +75,7 @@ class Mlp(nn.Module):
         linear_layer = partial(nn.Conv2d, kernel_size=1) if use_conv else nn.Linear
 
         self.fc1 = linear_layer(in_features, hidden_features, bias=bias[0])
-        self.act = nn.GELU(approximate="tanh")
+        self.act = _make_gelu()
         self.drop1 = nn.Dropout(drop_probs[0])
         self.norm = norm_layer(hidden_features) if norm_layer is not None else nn.Identity()
         self.fc2 = linear_layer(hidden_features, out_features, bias=bias[1])
