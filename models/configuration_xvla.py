@@ -14,6 +14,8 @@
 # limitations under the License.
 # ------------------------------------------------------------------------------
 
+from __future__ import annotations
+
 from .configuration_florence2 import Florence2Config
 from transformers.configuration_utils import PretrainedConfig
 

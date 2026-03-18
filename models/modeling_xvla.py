@@ -22,12 +22,7 @@ from typing import Any, Dict
 
 import numpy as np
 import torch
-from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 from PIL import Image
-import uvicorn
-import json_numpy
-import cv2
 
 from transformers import PreTrainedModel
 from .modeling_florence2 import Florence2ForConditionalGeneration
@@ -227,6 +222,17 @@ class XVLA(PreTrainedModel):
         if self.app is not None:
             return
 
+        try:
+            from fastapi import FastAPI
+            from fastapi.responses import JSONResponse
+            import cv2
+            import json_numpy
+        except ImportError as e:
+            raise ImportError(
+                "FastAPI serving dependencies are required for XVLA.run(). "
+                "Install fastapi, uvicorn, json_numpy, and opencv-python."
+            ) from e
+
         app = FastAPI()
 
         @app.post("/act")
@@ -289,6 +295,13 @@ class XVLA(PreTrainedModel):
         """
         Launch the FastAPI service.
         """
+        try:
+            import uvicorn
+        except ImportError as e:
+            raise ImportError(
+                "uvicorn is required to launch the XVLA FastAPI service."
+            ) from e
+
         self._build_app(processor)
         assert self.app is not None
         uvicorn.run(self.app, host=host, port=port)

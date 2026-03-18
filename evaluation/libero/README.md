@@ -33,6 +33,25 @@ python -m deploy \
 
 ---
 
+## 2.5️⃣ Single-Step Sample Inference
+
+If you only want to sanity-check that the LIBERO checkpoint loads and produces an action plan, you can run a local forward pass without starting the server:
+
+```bash
+cd X-VLA
+python sample_inference.py \
+  --model_path /path/to/X-VLA-Libero \
+  --image0 /path/to/agentview_rgb.png \
+  --image1 /path/to/wrist_rgb.png \
+  --instruction "pick up the white mug and place it in the bowl"
+```
+
+Notes:
+- `sample_inference.py` defaults to `domain_id=3`, which is the LIBERO domain id used in this repo.
+- If no images or proprio are passed, the script falls back to blank images and a zero 20-D proprio vector for a smoke test.
+
+---
+
 
 ## 3️⃣ Run the Client Evaluation
 
@@ -48,4 +67,3 @@ python libero_client.py \
 
 
 ---
-
